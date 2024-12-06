@@ -26,9 +26,7 @@ def get_commands_from_db():
                 all_commands.append(command_data)
     except sqlite3.Error as e:
         print(f"CRITICAL DATABASE ERROR: {e}")
-        import traceback
-        traceback.print_exc()
-        return []
+        return {'error': 'A database error occurred. Please try again later.'} # Improved error response
     finally:
         conn.close()
     return all_commands
@@ -42,7 +40,10 @@ def index():
 
 @app.route('/api/commands')
 def api_commands():
-    return jsonify(get_commands_from_db())
+    result = get_commands_from_db()
+    if 'error' in result:
+        return jsonify(result), 500 # Return error code
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(debug=True)
