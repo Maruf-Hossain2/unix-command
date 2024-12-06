@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Linux Commands Database</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#category').change(function() {
+                let selectedCategory = $(this).val();
+                $.getJSON('/api/commands', function(data) {
+                    console.log("Received data:", data);
+                    let filteredData = data.filter(item => item.category === selectedCategory); //No change needed here
+                    console.log("Filtered data:", filteredData);
+                    displayCommands(filteredData);
+                });
+            });
+        });
+
+        function displayCommands(commands) {
+            $('#command_table').empty();
+            let table = $('#command_table');
+            let thead = $('<thead><tr><th>Command</th><th>Description</th><th>Syntax</th><th>Example</th></tr></thead>');
+            table.append(thead);
+            let tbody = $('<tbody></tbody>');
+            commands.forEach(command => {
+                let row = $('<tr>');
+                row.append(`<td>${command.command}</td>`);
+                row.append(`<td>${command.description}</td>`);
+                row.append(`<td>${command.syntax}</td>`);
+                row.append(`<td>${command.example}</td>`);
+                tbody.append(row);
+            });
+            table.append(tbody);
+        }
+    </script>
+</head>
+<body>
+    <h1>Linux Command Database</h1>
+    <div id="linux-command-overview">
+        <p>Linux commands are powerful tools used to interact with the operating system. They provide a text-based interface for managing files, processes, and system resources.  Understanding and effectively utilizing these commands is fundamental for any Linux user, whether for basic file manipulation or advanced system administration.  Commands are generally short and often combined using pipes and redirection to achieve complex tasks efficiently.</p>
+        <p>This database provides a categorized list of common commands along with descriptions, syntax, and examples.  Each command is designed to perform specific tasks, such as creating directories, managing files, or accessing network resources. This collection covers a wide range of functionalities vital to system administration and everyday Linux use.</p>
+    </div>  
+    <select id="category">
+        {% for category in categories %}
+            <option value="{{ category }}">{{ category }}</option>
+        {% endfor %}
+    </select>
+    <table id="command_table"></table>
+</body>
+</html>

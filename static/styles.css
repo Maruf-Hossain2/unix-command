@@ -1,0 +1,134 @@
+body {
+  background: linear-gradient(to bottom, #1e1e1e, #282828);
+  font-family: 'Roboto', sans-serif;
+  color: #b3b3b3;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+h1 {
+  color: #80ffdb;
+  text-align: center;
+  margin: 30px 0 20px 0;
+  text-shadow: 0 0 10px rgba(128, 255, 219, 0.7);
+  font-size: 2.5em;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+#category {
+  position: relative;
+  padding: 12px 25px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 7px;
+  background-image: linear-gradient(to bottom, #2980b9, #6dd5fa);
+  color: #fff;
+  margin-bottom: 20px;
+  width: 350px;
+  appearance: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) inset, 0 -4px 8px rgba(255, 255, 255, 0.2) inset, 4px 4px 15px rgba(128, 255, 219, 0.7);
+  transition: box-shadow 0.2s ease;
+}
+
+#category:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) inset, 0 -4px 12px rgba(255, 255, 255, 0.3) inset, 6px 6px 20px rgba(128, 255, 219, 0.9);
+  background-image: linear-gradient(to bottom, #6dd5fa, #2980b9);
+}
+
+#category::-ms-expand {
+  display: none;
+}
+
+#category::after {
+  content: "\279C";
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #fff;
+  font-size: 1.5em;
+}
+
+#category option {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+}
+
+
+#command_table {
+  width: 90%;
+  max-width: 1200px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  box-shadow: 0 0 20px rgba(128, 255, 219, 0.7); /* Stronger glow */
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.2); /* Darker background for the table */
+}
+
+th, td {
+  padding: 15px 20px;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Subdued border */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-size: 1.1em;
+}
+
+th {
+  background-image: linear-gradient(to right, #2980b9, #6dd5fa);
+  color: #fff;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.3); /* Darker even rows */
+}
+
+tr {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.4) inset, -2px -2px 10px rgba(255,255,255,0.3) inset;
+  border-radius: 5px; /* Add rounded corners for a softer look */
+}
+
+tr:hover {
+  box-shadow: 0px 5px 20px rgba(128, 255, 219, 0.9), /* Glow effect */
+  inset 0px 0px 10px rgba(0, 255, 255, 0.5); /* Inner neon glow */
+  transform: scale(1.02); /*Slight zoom, no vertical translation */
+  background-color: rgba(0, 0, 0, 0.5); /* Darker background on hover */
+}
+
+td {
+  color: #d0d0d0;
+}
+
+#linux-command-overview {
+  width: 90%;
+  max-width: 1200px;
+  margin-bottom: 30px; /* Increased bottom margin for spacing */
+  padding: 20px; /* Added padding for internal spacing */
+  background-color: rgba(20, 20, 20, 0.8); /* Dark background with slight transparency */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 -4px 8px rgba(255, 255, 255, 0.1); /* Subtle inset and outset shadows */
+  color: #d0d0d0; /* Text color */
+  line-height: 1.6;
+  font-family: 'Roboto', sans-serif; /* Use the same font as the rest of the page */
+}
+
+#linux-command-overview p {
+  margin-bottom: 15px; /* Adjust spacing between paragraphs */
+}
+
+#linux-command-overview p:first-of-type {
+  font-size: 1.2em; /* Slightly larger heading */
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+#linux-command-overview p:not(:first-of-type) { /* For other paragraphs */
+  font-size: 1.1em; 
+  margin-bottom: 15px;
+}
