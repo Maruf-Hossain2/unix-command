@@ -8,6 +8,7 @@ def get_commands_from_db():
     conn = sqlite3.connect('commands.db')
     cursor = conn.cursor()
     all_commands = []
+
     try:
         for table_name in commands_by_category:
             display_name = table_name.replace('_', ' ').title() # Create display name
@@ -26,7 +27,9 @@ def get_commands_from_db():
                 all_commands.append(command_data)
     except sqlite3.Error as e:
         print(f"CRITICAL DATABASE ERROR: {e}")
-        return {'error': 'A database error occurred. Please try again later.'} # Improved error response
+        import traceback
+        traceback.print_exc()
+        return []
     finally:
         conn.close()
     return all_commands
@@ -40,10 +43,6 @@ def index():
 
 @app.route('/api/commands')
 def api_commands():
-    result = get_commands_from_db()
-    if 'error' in result:
-        return jsonify(result), 500 # Return error code
-    return jsonify(result)
-
+    return jsonify(get_commands_from_db())
 if __name__ == '__main__':
     app.run(debug=True)
