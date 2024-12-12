@@ -19,6 +19,46 @@ h1 {
   letter-spacing: 3px;
 }
 
+/* Search Box and Button Styling */
+.search-container {
+  display: flex; /* Arrange search box and button horizontally */
+  margin-bottom: 20px;
+}
+
+#search-box {
+  width: 250px; /* Adjust width as needed */
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2); /* Dark background */
+  color: #80ffdb; /* Neon green text */
+  box-shadow: 0 0 10px rgba(128, 255, 219, 0.7), /* Neon glow */
+             inset 0 0 5px rgba(0, 0, 0, 0.5); /* Inner shadow */
+  font-size: 1em;
+}
+
+#search-box::placeholder {
+  color: rgba(128, 255, 219, 0.5); /* Lighter neon green placeholder */
+}
+
+#search-btn {
+  padding: 15px 20px;
+  margin-left: 10px; /* Space between box and button */
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(to bottom, #2980b9, #6dd5fa); /* Gradient */
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(128, 255, 219, 0.7), /* Neon glow */
+             inset 0 0 5px rgba(0, 0, 0, 0.5); /* Inner shadow */
+  transition: background-color 0.3s ease; /* Smooth transition */
+  font-size: 1em;
+}
+
+#search-btn:hover {
+  background: linear-gradient(to bottom, #6dd5fa, #2980b9); /* Reverse gradient on hover */
+}
+
 #category-instruction {
   text-align: center;
   margin-bottom: 10px;
@@ -65,8 +105,12 @@ h1 {
   color: #fff;
 }
 
+#categories-container {
+  display: none;
+  margin-top: 20px;
+}
 
-#command_table {
+#command_table, table {
   width: 90%;
   max-width: 1200px;
   border-collapse: collapse;
@@ -109,6 +153,12 @@ tr:hover {
 
 td {
   color: #d0d0d0;
+}
+
+#no-results {
+  color: red;
+  font-size: 16px;
+  margin-top: 20px;
 }
 
 #linux-command-overview {
@@ -168,13 +218,13 @@ footer p {
 }
 
 .social-icon:hover {
-  transform: scale(1.2); /* Simpler hover effect */
+  transform: scale(1.1); /* Simpler hover effect */
   color: #fff;
   animation: socialIconHover 0.5s ease-in-out forwards;
 }
 
 .social-icon:not(:hover) {
-  transform: scale(1.3) rotate(0deg);
+  transform: scale(1) rotate(0deg);
   animation: socialIconHoverReverse 0.5s ease-in-out forwards;
 }
 

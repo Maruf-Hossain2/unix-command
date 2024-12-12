@@ -3,7 +3,7 @@
 <head>
     <title>Linux Commands Database</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />  <!-- Add Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -35,15 +35,84 @@
             table.append(tbody);
         }
     </script>
+    <script>
+        $(document).ready(function () {
+        // Function to render a category table and its commands
+        function renderCategory(categoryName, commands) {
+            let tableHtml = `
+                <h3>${categoryName}</h3>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Description</th>
+                            <th>Syntax</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+            
+            commands.forEach(command => {
+                tableHtml += `
+                    <tr>
+                        <td>${command.command}</td>
+                        <td>${command.description}</td>
+                        <td><code>${command.syntax}</code></td>
+                        <td><code>${command.example}</code></td>
+                    </tr>`;
+            });
+    
+            tableHtml += `</tbody></table>`;
+            return tableHtml;
+        }
+    
+        // Handle search button click
+        $('#search-btn').click(function () {
+            let query = $('#search-box').val().trim();
+            if (query === "") {
+                alert("Please enter a search term.");
+                return;
+            }
+    
+            $.getJSON(`/api/search?q=${query}`, function (data) {
+                $('#categories-container').empty(); // Clear existing content
+                $('#categories-container').hide(); // Hide container by default
+                $('#no-results').hide(); // Hide "no results" message
+    
+                if ($.isEmptyObject(data)) {
+                    $('#no-results').show(); // Show "no results" message
+                } else {
+                    $('#categories-container').show(); // Show container
+                    // Render categories with matching commands
+                    for (const [category, commands] of Object.entries(data)) {
+                        $('#categories-container').append(renderCategory(category, commands));
+                    }
+                }
+            }).fail(function () {
+                alert("Error fetching search results. Please try again later.");
+            });
+        });
+    });
+    </script>
+
 </head>
 <body>
-    <h1>Linux Command Database</h1>
+    <h1>Unix Learning Platform</h1>
     <div id="linux-command-overview">
         <p>Linux commands are powerful tools used to interact with the operating system. They provide a text-based interface for managing files, processes, and system resources.  Understanding and effectively utilizing these commands is fundamental for any Linux user, whether for basic file manipulation or advanced system administration.  Commands are generally short and often combined using pipes and redirection to achieve complex tasks efficiently.</p>
         <p>This database provides a categorized list of common commands along with descriptions, syntax, and examples.  Each command is designed to perform specific tasks, such as creating directories, managing files, or accessing network resources. This collection covers a wide range of functionalities vital to system administration and everyday Linux use.</p>
-    </div>  
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="search-box" placeholder="Search commands...">
+        <button id="search-btn">Search</button>
+    </div>
+    <div id="categories-container" style="display: none;"></div>  <!-- Container for search and category results -->
+    <div id="no-results" style="display: none;">
+        <p>No results found.</p>
+    </div>
+
     <p id="category-instruction">Select a category from the dropdown below to view the corresponding commands:</p>
-    
     <select id="category">
         {% for category in categories %}
             <option value="{{ category }}">{{ category }}</option>

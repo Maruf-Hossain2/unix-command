@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import sqlite3
 from command_data import commands_by_category
 
@@ -36,10 +36,45 @@ def get_commands_from_db():
 
 @app.route('/')
 def index():
-    print("commands_by_category:", commands_by_category) #Check this first!
     categories = [category.replace('_', ' ').title() for category in commands_by_category.keys()]
-    print("Categories:", categories) #Then check this.
     return render_template('index.html', categories=categories)
+
+@app.route('/api/search', methods=['GET'])
+def search_commands():
+    from flask import request
+    query = request.args.get('q', '').strip().lower()
+    if not query:
+        return jsonify([])  # Return empty list if no query is provided
+    
+    conn = sqlite3.connect('commands.db')
+    cursor = conn.cursor()
+    search_results = {}
+
+    try:
+        for table_name in commands_by_category:
+            cursor.execute(f"""
+                SELECT command, description, syntax, example
+                FROM {table_name}
+                WHERE command LIKE ? OR description LIKE ?
+            """, (f'%{query}%', f'%{query}%'))
+            rows = cursor.fetchall()
+            if rows:
+                display_name = table_name.replace('_', ' ').title()
+                if display_name not in search_results:
+                    search_results[display_name] = []
+                for row in rows:
+                    search_results[display_name].append({
+                        'command': row[0],
+                        'description': row[1],
+                        'syntax': row[2],
+                        'example': row[3]
+                    })
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+    finally:
+        conn.close()
+    
+    return jsonify(search_results)
 
 @app.route('/api/commands')
 def api_commands():
